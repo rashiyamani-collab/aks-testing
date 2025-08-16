@@ -26,9 +26,7 @@ jobs:
       - name: Azure Login (OIDC)
         uses: azure/login@v2
         with:
-          client-id:      ${{ vars.AZURE_CLIENT_ID }} # app reg with federated credential
-          tenant-id:      ${{ env.AZURE_TENANT_ID }}
-          subscription-id: ${{ env.AZURE_SUBSCRIPTION_ID }}
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: ACR Login
         run: az acr login --name $ACR_NAME
