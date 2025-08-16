@@ -26,7 +26,9 @@ jobs:
       - name: Azure Login (OIDC)
         uses: azure/login@v2
         with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
+          client-id:      ${{ vars.AZURE_CLIENT_ID }} # app reg with federated credential
+          tenant-id:      ${{ env.AZURE_TENANT_ID }}
+          subscription-id: ${{ env.AZURE_SUBSCRIPTION_ID }}
 
       - name: ACR Login
         run: az acr login --name $ACR_NAME
@@ -50,4 +52,3 @@ jobs:
           sed -e "s#<ACR_LOGIN_SERVER>#$ACR_LOGIN_SERVER#g" \
               -e "s#\$(IMAGE_TAG)#$IMAGE_TAG#g" k8s/deployment.yaml | kubectl apply -f -
           kubectl rollout status deploy/demo-web
-
